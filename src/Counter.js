@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 class Counter extends Component {
   constructor(){
     super()
+    
     this.state = {
-      counter: 1,
+      counter: 10,
       loading: true,
       posts: [{
         title: 'A'
@@ -60,6 +61,8 @@ class Counter extends Component {
 
   increaseCounter = () => {
     this.setState({counter: this.state.counter + 1});
+
+    this.descreaseCounter(); 
   }
 
   descreaseCounter = () => {
