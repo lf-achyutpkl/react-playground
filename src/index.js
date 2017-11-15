@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import Counter from './Counter';
-import Form from './views/Form/Form';
-import registerServiceWorker from './registerServiceWorker';
+import './assets/css/style.css';
+import TodoView from './views/TodoView';
 
-ReactDOM.render(<Form />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(
+  <TodoView/>, document.getElementById('root'));

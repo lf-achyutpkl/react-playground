@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
+import './style.css';
 
-class Button extends Component{
+class SearchBtn extends Component{
 
-  render(){
-    return(
-      <button onClick={this.props.onClick}>{this.props.label}</button>
-    );
-  }
+    render(){
+        return(
+            <button onClick={this.props.onClick}>{this.props.label}</button>
+        );
+    }
 }
 
-export default Button;
+export default SearchBtn;

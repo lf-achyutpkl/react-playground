@@ -1,0 +1,11 @@
+.error-msg {
+    display: block;
+    flex: 0 0 100%;
+    padding: 15px 0;
+    color: red;
+    font-size: 12px;
+}
+
+.search-row {
+    flex-wrap: wrap;
+}
