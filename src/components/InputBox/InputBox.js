@@ -9,7 +9,7 @@ class InputBox extends Component{
                     value = {this.props.todoText}
                     onChange={(e) => this.props.onChange(e.target.value)} 
                     placeholder={this.props.placeholder} />
-                {this.props.error && <span className="error-msg">Input box can't be empty</span> }
+                {this.props.error && <span className="error-msg">Input box can\'t be empty</span> }
             </div>
         );
     }
