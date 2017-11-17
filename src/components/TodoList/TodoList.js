@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './style.css';
 
-class ToDoLists extends Component{
+class ToDoList extends Component{
 
     render(){
         return(       
@@ -12,4 +12,4 @@ class ToDoLists extends Component{
     }
 }
 
-export default ToDoLists;
+export default ToDoList;
