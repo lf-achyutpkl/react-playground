@@ -6,7 +6,7 @@ class ToDoList extends Component{
     render(){
         return(       
            <ul id='toDo' className='todolists'> 
-            { this.props.todos.map((todo, index) => <li key={index}>{todo}</li>)}
+            { this.props.todos && this.props.todos.map((todo, index) => <li key={index}>{todo}</li>)}
            </ul>
         );
     }

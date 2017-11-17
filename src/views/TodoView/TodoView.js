@@ -31,17 +31,28 @@ class View extends Component{
     }
 
     componentDidMount(){
-        console.log(this.state.person.name.firstName);
-        // this.state.person.name.firstName = 'Shyam';
-        // let newPerson = Object.assign({}, this.state.person);
-        let newPerson = {...this.state.person, name: {...this.state.person.name, firstName: 'Hari'}};
-        this.setState({person: newPerson});
+
+        let localTodo = JSON.parse(localStorage.getItem('todos'));
+        if(localTodo !== null){
+            this.setState({todos: localTodo});
+        }
+
+        // localTodo && this.setState({todos: localTodo})
+        
+
+
+        /* Immutable sikeko matra
+            console.log(this.state.person.name.firstName);
+            // this.state.person.name.firstName = 'Shyam';
+            // let newPerson = Object.assign({}, this.state.person);
+            let newPerson = {...this.state.person, name: {...this.state.person.name, firstName: 'Hari'}};
+            this.setState({person: newPerson});
+        */
     }
 
     render(){
         return(
             <div className='header'>
-                <p>{this.state.person.name.firstName}</p>
                 <Header title='My To Do List'/> 
                 <SeachRow error = {this.state.error} todoText={this.state.todoText} setTodoText = {this.setTodoText} addTodo={this.addTodo}/> 
                 <TodoList todos={this.state.todos}/>         
@@ -62,11 +73,17 @@ class View extends Component{
             this.setState({error: true});
             return;
         }
-        // this.state.todos= ['meeting'];
+        
         let todos = this.state.todos.concat([this.state.todoText]);
-        // todos: ['meeting', 'eating'];
-        // this.state.todos= ['meeting'];
-        this.setState({todos, todoText: ''});       // clear text box
+
+        //this.setState({updater, [callback]})
+
+        this.setState({todos, todoText: ''}, () => {
+            localStorage.setItem('todos', JSON.stringify(this.state.todos));
+            console.log('state state ko bhitra', this.state.todos);
+        });     // clear text box
+
+        console.log('state state ko tala', this.state.todos);
     }
 }
 
