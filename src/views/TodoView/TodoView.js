@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import update from 'immutability-helper';
+
 import Header from '../../components/Header';
-import SeachRow from '../../components/SearchRow';
 import TodoList from '../../components/TodoList';
+import SeachRow from '../../components/SearchRow';
 
 class View extends Component{
 
@@ -19,14 +21,13 @@ class View extends Component{
         this.state = {
             error: false,
             todoText: '',
-            todos: [],
-            person: {
-                name: {
-                    firstName: 'Ram',
-                    lastName: 'Shrestha'
-                },
-                address: 'kathmandu'
-            }
+            todos: [
+                {
+                    id: 1,
+                    text: 'First todo',
+                    status: 'Done'
+                }
+            ]
         }
     }
 
@@ -55,7 +56,7 @@ class View extends Component{
             <div className='header'>
                 <Header title='My To Do List'/> 
                 <SeachRow error = {this.state.error} todoText={this.state.todoText} setTodoText = {this.setTodoText} addTodo={this.addTodo}/> 
-                <TodoList todos={this.state.todos}/>         
+                <TodoList todos={this.state.todos} onClick = {this.changeStatus}/>         
             </div>
         );
     }
@@ -69,12 +70,13 @@ class View extends Component{
     }
 
     addTodo = () => {
-        if(this.state.todoText === ''){             // validation, not allowing empty todo
+        if(this.state.todoText === ''){
             this.setState({error: true});
             return;
         }
-        
-        let todos = this.state.todos.concat([this.state.todoText]);
+        let length = this.state.todos.length + 1;
+        let todo = {id: length, text: this.state.todoText, status: 'Not Done'};
+        let todos = this.state.todos.concat([todo]);
 
         //this.setState({updater, [callback]})
 
@@ -84,6 +86,18 @@ class View extends Component{
         });     // clear text box
 
         console.log('state state ko tala', this.state.todos);
+    }
+
+    changeStatus = (id) => { //3
+        let selectedTodoIndex = this.state.todos.findIndex(todo => todo.id === id) //5
+        
+        let updatedTodos = update(this.state.todos, {
+            [selectedTodoIndex]: {
+                status: {$set: 'Done'}
+            }
+        })
+
+        this.setState({todos: updatedTodos})
     }
 }
 
