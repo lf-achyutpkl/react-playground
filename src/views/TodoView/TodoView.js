@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import update from 'immutability-helper';
 
 import Header from '../../components/Header';
+import InputBox from '../../components/InputBox';
 import TodoList from '../../components/TodoList';
 import SeachRow from '../../components/SearchRow';
+import DropDown from '../../components/DropDown';
+
+import {isNotValid} from '../../utils/validationUtils';
 
 class View extends Component{
 
@@ -27,7 +31,8 @@ class View extends Component{
                     text: 'First todo',
                     status: 'Done'
                 }
-            ]
+            ],
+            filteredResult: []
         }
     }
 
@@ -35,7 +40,7 @@ class View extends Component{
 
         let localTodo = JSON.parse(localStorage.getItem('todos'));
         if(localTodo !== null){
-            this.setState({todos: localTodo});
+            this.setState({todos: localTodo, filteredResult: localTodo});
         }
 
         // localTodo && this.setState({todos: localTodo})
@@ -54,9 +59,11 @@ class View extends Component{
     render(){
         return(
             <div className='header'>
-                <Header title='My To Do List'/> 
+                <Header title='My To Do List'/>
+                <DropDown options={['All', 'Done', 'Not Done']} abc={this.filterByStatus}/>
                 <SeachRow error = {this.state.error} todoText={this.state.todoText} setTodoText = {this.setTodoText} addTodo={this.addTodo}/> 
-                <TodoList todos={this.state.todos} onClick = {this.changeStatus}/>         
+                <InputBox placeholder='Search' onChange={this.searchTodo}/>
+                <TodoList todos={this.state.filteredResult} onClick = {this.changeStatus}/>         
             </div>
         );
     }
@@ -70,22 +77,21 @@ class View extends Component{
     }
 
     addTodo = () => {
-        if(this.state.todoText === ''){
-            this.setState({error: true});
-            return;
+        if (isNotValid(this.state.todoText)) {
+          this.setState({ error: true });
+          return;
         }
+
         let length = this.state.todos.length + 1;
         let todo = {id: length, text: this.state.todoText, status: 'Not Done'};
         let todos = this.state.todos.concat([todo]);
 
         //this.setState({updater, [callback]})
 
-        this.setState({todos, todoText: ''}, () => {
+        this.setState({todos, todoText: '', filteredResult: todos}, () => {
             localStorage.setItem('todos', JSON.stringify(this.state.todos));
-            console.log('state state ko bhitra', this.state.todos);
         });     // clear text box
 
-        console.log('state state ko tala', this.state.todos);
     }
 
     changeStatus = (id) => { //3
@@ -98,6 +104,20 @@ class View extends Component{
         })
 
         this.setState({todos: updatedTodos})
+    }
+
+    searchTodo = (queryString) => {
+        let searchResult = this.state.todos.filter(todo => todo.text.toLocaleLowerCase().includes(queryString.toLocaleLowerCase()));
+        this.setState({filteredResult: searchResult});
+    }
+
+    filterByStatus = (status) => { //all, done, not done
+        if(status.toLocaleLowerCase()==='all'){
+            this.setState({filteredResult:this.state.todos})
+            return;
+        }
+        let searchResult = this.state.todos.filter(todo=>todo.status.toLocaleLowerCase()===status.toLocaleLowerCase());
+        this.setState({filteredResult:searchResult});
     }
 }
 

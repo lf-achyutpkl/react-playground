@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 import {get, post} from '../../utils/httpUtils';
 
@@ -16,22 +17,18 @@ class Dashboard extends Component {
     }
   }
 
-  // componentDidMount(){
-  //   let url = 'https://jsonplaceholder.typicode.com/posts';
-  //   get(url).then(response => this.setState({posts: response.data}, () => {
-  //     console.log('dashboard: ', this.state.posts);
-  //   }));
+  componentDidMount(){
+    let url = 'https://jsonplaceholder.typicode.com/photos';
+    get(url).then(response => this.setState({posts: response.data}, () => {
+      console.log('dashboard: ', this.state.posts);
+    }));
     
-  // }
+  }
 
   render() {
     return (
       <div>
-        This is dashboard
-          title: <input type="text" onChange={(e) => this.setState({title: e.target.value})}/> <br/>
-          body: <input type="text" onChange={(e) => this.setState({body: e.target.value})}/>
-          <button onClick={this.save}>save</button>
-
+        {this.state.posts.map(post => this.renderPost(post))}
       </div>
     );
   }

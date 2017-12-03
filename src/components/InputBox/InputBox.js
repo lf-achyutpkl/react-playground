@@ -4,7 +4,7 @@ import './style.css';
 const InputBox = (props) => (
             <div className='custom-input'>
                 <input type='text' 
-                    value = {props.todoText}
+                    value = {props.value}
                     onChange={(e) => props.onChange(e.target.value)} 
                     placeholder={props.placeholder} />
                 {props.error && <span className="error-msg">Input box can't be empty</span> }

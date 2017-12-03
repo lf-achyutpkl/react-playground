@@ -9,7 +9,7 @@ class SeachRow extends Component{
             <div className='search-row flex-box'>
                 <InputBox 
                     error = {this.props.error} 
-                    todoText = {this.props.todoText} 
+                    value = {this.props.todoText} 
                     onChange = {this.props.setTodoText} 
                     placeholder='Type your importance' />
                     
