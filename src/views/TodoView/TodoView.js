@@ -23,6 +23,7 @@ class View extends Component{
         */
 
         this.state = {
+            showAddTodo: true,
             error: false,
             todoText: '',
             todos: [
@@ -59,10 +60,12 @@ class View extends Component{
     render(){
         return(
             <div className='header'>
+                {this.props.reduxTodos.map(todo => <p>{todo.title}</p>)}
                 <Header title='My To Do List'/>
                 <DropDown options={['All', 'Done', 'Not Done']} abc={this.filterByStatus}/>
-                <SeachRow error = {this.state.error} todoText={this.state.todoText} setTodoText = {this.setTodoText} addTodo={this.addTodo}/> 
-                <InputBox placeholder='Search' onChange={this.searchTodo}/>
+                {this.state.showAddTodo ?  <SeachRow error = {this.state.error} todoText={this.state.todoText} setTodoText = {this.setTodoText} addTodo={this.addTodo}/>  : <InputBox placeholder='Search' onChange={this.searchTodo}/>}
+                
+                
                 <TodoList todos={this.state.filteredResult} onClick = {this.changeStatus}/>         
             </div>
         );
@@ -87,11 +90,7 @@ class View extends Component{
         let todos = this.state.todos.concat([todo]);
 
         //this.setState({updater, [callback]})
-
-        this.setState({todos, todoText: '', filteredResult: todos}, () => {
-            localStorage.setItem('todos', JSON.stringify(this.state.todos));
-        });     // clear text box
-
+        this.props.hamroAddTodo ({id: 1, title: this.state.todoText})
     }
 
     changeStatus = (id) => { //3

@@ -1,3 +1,3 @@
-import TodoView from './TodoView';
+import TodoView from './TodoViewContainer';
 
 export default TodoView;

@@ -13,22 +13,25 @@ class Dashboard extends Component {
     this.state = {
       title: '',
       body: '',
-      posts: []
+      posts: [],
+      users: []
     }
   }
 
   componentDidMount(){
-    let url = 'https://jsonplaceholder.typicode.com/photos';
-    get(url).then(response => this.setState({posts: response.data}, () => {
-      console.log('dashboard: ', this.state.posts);
-    }));
+    // let url = 'https://jsonplaceholder.typicode.com/photos';
+    // get(url).then(response => this.setState({posts: response.data}, () => {
+    //   console.log('dashboard: ', this.state.posts);
+    // }));
     
+    let userUrl = 'http://localhost:8000/users.json';
+    get(userUrl).then(response => this.setState({users: response.data.users})) 
   }
 
   render() {
     return (
       <div>
-        {this.state.posts.map(post => this.renderPost(post))}
+        {this.state.users.map(user => <p key={user.id}>{user.name}</p>)}
       </div>
     );
   }
